@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import GoogleTranslate from './Language';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -17,17 +18,12 @@ const Navbar = () => {
     { name: "Contact", target: "#cta" },
   ];
 
-  // Smooth Scroll Function - Keeps URL Clean
   const handleNavClick = (e, targetId) => {
-    e.preventDefault(); // This stops the URL from changing
+    e.preventDefault();
     setIsOpen(false);
-
     gsap.to(window, {
       duration: 1.2,
-      scrollTo: {
-        y: targetId,
-        offsetY: 80,
-      },
+      scrollTo: { y: targetId, offsetY: 80 },
       ease: "power3.inOut",
     });
   };
@@ -60,12 +56,12 @@ const Navbar = () => {
       <div className="container max-w-8xl mx-auto px-6 h-20 flex items-center justify-between">
 
         {/* Left: Logo */}
-        <div className="nav-anim w-60">
+        <div className="nav-anim flex-shrink-0">
           <img
-            className="h-20 w-auto object-contain cursor-pointer"
+            className="h-16 md:h-20 w-auto object-contain cursor-pointer -ml-4 lg:ml-0"
             src="logo.png"
             alt="KisanHub"
-            onClick={(e) => handleNavClick(e, "#home")} // Logo also scrolls to top
+            onClick={(e) => handleNavClick(e, "#home")}
           />
         </div>
 
@@ -82,14 +78,21 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Right: Actions */}
-        <div className="nav-anim w-48 flex justify-end items-center gap-4">
-          <a href="/login">
+        {/* Right: Actions (Translate + Login + Toggle) */}
+        <div className="nav-anim flex items-center gap-2 sm:gap-4">
+          
+          {/* Google Translate - Set for Mobile & Desktop */}
+          <div className="scale-90 origin-right">
+            <GoogleTranslate />
+          </div>
+
+          <a href="/login" className="hidden sm:block">
             <button className="bg-black cursor-pointer text-white px-8 py-2.5 rounded-full text-sm font-bold hover:bg-slate-800 transition-all active:scale-95 whitespace-nowrap">
               Login
             </button>
           </a>
 
+          {/* Mobile Toggle Button */}
           <button
             onClick={() => setIsOpen(true)}
             className="lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 focus:outline-none"
@@ -102,24 +105,34 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu Overlay */}
-      <div ref={menuRef} className="fixed inset-0 bg-white z-[110] flex flex-col items-center justify-center translate-x-full lg:hidden">
-        <button onClick={() => setIsOpen(false)} className="absolute top-6 right-8 w-12 h-12 flex items-center justify-center">
-          <div className="relative w-6 h-6">
-            <span className="absolute block w-6 h-0.5 bg-black rotate-45 top-1/2 -translate-y-1/2"></span>
-            <span className="absolute block w-6 h-0.5 bg-black -rotate-45 top-1/2 -translate-y-1/2"></span>
-          </div>
-        </button>
+      <div ref={menuRef} className="fixed inset-0 bg-white z-[110] flex flex-col translate-x-full lg:hidden">
+        <div className="flex items-center justify-end px-8 py-6 border-b border-slate-50">
+          <button onClick={() => setIsOpen(false)} className="w-10 h-10 flex items-center justify-center focus:outline-none">
+            <div className="relative w-6 h-6">
+              <span className="absolute block w-6 h-0.5 bg-black rotate-45 top-1/2 -translate-y-1/2"></span>
+              <span className="absolute block w-6 h-0.5 bg-black -rotate-45 top-1/2 -translate-y-1/2"></span>
+            </div>
+          </button>
+        </div>
 
-        <div className="flex flex-col items-center space-y-8">
+        <div className="flex flex-col items-end space-y-8 px-10 py-12">
           {menuItems.map((item) => (
             <button
               key={item.name}
               onClick={(e) => handleNavClick(e, item.target)}
-              className="text-3xl font-bold text-slate-800 hover:text-green-600 transition-colors"
+              className="text-4xl font-bold text-slate-800 hover:text-green-600 transition-colors text-right"
             >
               {item.name}
             </button>
           ))}
+          
+          <div className="pt-8 w-full flex justify-end">
+            <a href="/login" onClick={() => setIsOpen(false)}>
+              <button className="bg-black text-white px-12 py-4 rounded-full font-bold text-xl shadow-lg active:scale-95">
+                Login
+              </button>
+            </a>
+          </div>
         </div>
       </div>
     </nav>
