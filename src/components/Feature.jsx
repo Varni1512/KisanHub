@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  ShoppingBag, 
-  FlaskConical, 
-  Tractor, 
-  MessageCircle, 
+import {
+  ShoppingBag,
+  FlaskConical,
+  Tractor,
+  MessageCircle,
   BookOpen,
   ArrowRight
 } from 'lucide-react';
@@ -58,7 +58,7 @@ const Features = () => {
   return (
     <section id="features" className="relative py-10 bg-slate-50 overflow-hidden">
       <div className="container mx-auto px-6 relative z-10">
-        
+
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-green-600 font-bold uppercase tracking-widest text-xs">
@@ -72,7 +72,7 @@ const Features = () => {
 
         {/* Centered Cards Container */}
         {/* We use flex-wrap and justify-center so that the last 2 cards stay in the middle */}
-        <motion.div 
+        <motion.div
           className="flex flex-wrap justify-center gap-8"
           variants={containerVariants}
           initial="hidden"
@@ -100,9 +100,11 @@ const Features = () => {
               </p>
 
               {/* Footer */}
-              <div className="mt-auto flex items-center gap-2 text-green-600 font-bold text-sm opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-                Explore Feature <ArrowRight size={16} />
-              </div>
+              <a href="/login">
+                <div className="mt-auto flex items-center gap-2 cursor-pointer text-green-600 font-bold text-sm opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                  Explore Feature <ArrowRight size={16} />
+                </div>
+              </a>
             </motion.div>
           ))}
         </motion.div>

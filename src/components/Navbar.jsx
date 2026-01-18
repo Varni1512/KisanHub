@@ -20,13 +20,13 @@ const Navbar = () => {
   // Smooth Scroll Function - Keeps URL Clean
   const handleNavClick = (e, targetId) => {
     e.preventDefault(); // This stops the URL from changing
-    setIsOpen(false); 
+    setIsOpen(false);
 
     gsap.to(window, {
       duration: 1.2,
       scrollTo: {
         y: targetId,
-        offsetY: 80, 
+        offsetY: 80,
       },
       ease: "power3.inOut",
     });
@@ -58,13 +58,13 @@ const Navbar = () => {
   return (
     <nav ref={navRef} className="fixed top-0 left-0 w-full bg-white z-[100] border-b border-gray-100 shadow-sm">
       <div className="container max-w-8xl mx-auto px-6 h-20 flex items-center justify-between">
-        
+
         {/* Left: Logo */}
         <div className="nav-anim w-60">
-          <img 
-            className="h-20 w-auto object-contain cursor-pointer" 
-            src="logo.png" 
-            alt="KisanHub" 
+          <img
+            className="h-20 w-auto object-contain cursor-pointer"
+            src="logo.png"
+            alt="KisanHub"
             onClick={(e) => handleNavClick(e, "#home")} // Logo also scrolls to top
           />
         </div>
@@ -72,8 +72,8 @@ const Navbar = () => {
         {/* Middle: Desktop Menu */}
         <div className="hidden lg:flex items-center space-x-10">
           {menuItems.map((item) => (
-            <button 
-              key={item.name} 
+            <button
+              key={item.name}
               onClick={(e) => handleNavClick(e, item.target)}
               className="nav-anim text-slate-700 hover:text-green-600 font-semibold transition-colors text-[15px] cursor-pointer"
             >
@@ -84,11 +84,13 @@ const Navbar = () => {
 
         {/* Right: Actions */}
         <div className="nav-anim w-48 flex justify-end items-center gap-4">
-          <button className="bg-black cursor-pointer text-white px-8 py-2.5 rounded-full text-sm font-bold hover:bg-slate-800 transition-all active:scale-95 whitespace-nowrap">
-            Login
-          </button>
-          
-          <button 
+          <a href="/login">
+            <button className="bg-black cursor-pointer text-white px-8 py-2.5 rounded-full text-sm font-bold hover:bg-slate-800 transition-all active:scale-95 whitespace-nowrap">
+              Login
+            </button>
+          </a>
+
+          <button
             onClick={() => setIsOpen(true)}
             className="lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5 focus:outline-none"
           >
@@ -110,9 +112,9 @@ const Navbar = () => {
 
         <div className="flex flex-col items-center space-y-8">
           {menuItems.map((item) => (
-            <button 
-              key={item.name} 
-              onClick={(e) => handleNavClick(e, item.target)} 
+            <button
+              key={item.name}
+              onClick={(e) => handleNavClick(e, item.target)}
               className="text-3xl font-bold text-slate-800 hover:text-green-600 transition-colors"
             >
               {item.name}

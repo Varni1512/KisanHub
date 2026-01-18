@@ -42,24 +42,24 @@ const Hero = () => {
   }, []);
 
   return (
-    <section 
-      ref={heroRef} 
+    <section
+      ref={heroRef}
       className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-black"
       id='home'
     >
       {/* Background Image Wrapper */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src="Herom.png" 
-          alt="Agriculture Mobile" 
+        <img
+          src="Herom.png"
+          alt="Agriculture Mobile"
           className="block md:hidden w-full h-full object-cover opacity-70"
-          onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1500382017468-9049fee74a62?auto=format&fit=crop&q=80&w=800"}}
+          onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1500382017468-9049fee74a62?auto=format&fit=crop&q=80&w=800" }}
         />
-        <img 
-          src="Hero.png" 
-          alt="Agriculture Desktop" 
+        <img
+          src="Hero.png"
+          alt="Agriculture Desktop"
           className="hidden md:block w-full h-full object-cover opacity-70"
-          onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1500382017468-9049fee74a62?auto=format&fit=crop&q=80&w=1600"}}
+          onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1500382017468-9049fee74a62?auto=format&fit=crop&q=80&w=1600" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/70"></div>
       </div>
@@ -70,40 +70,42 @@ const Hero = () => {
           Empowering Farmers with a <br />
           <span className="text-green-400">Digital Farming</span> Ecosystem
         </h1>
-        
+
         <p className="hero-anim mt-8 text-lg md:text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-          KisanHub connects farmers directly with buyers, medicine shops, and other farmers — 
+          KisanHub connects farmers directly with buyers, medicine shops, and other farmers —
           enabling easy selling, smart buying, equipment sharing, and community support in one platform.
         </p>
 
         <div className="hero-anim mt-10 flex flex-col sm:flex-row gap-5 justify-center">
-          <button className="bg-green-500 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-green-600 transition-all shadow-xl active:scale-95">
-            Get Started
-          </button>
-          <button className="bg-white/10 backdrop-blur-md text-white border border-white/30 px-10 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all active:scale-95">
+          <a href="/login">
+            <button className="bg-green-500 cursor-pointer text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-green-600 transition-all shadow-xl active:scale-95">
+              Get Started
+            </button>
+          </a>
+          <button onClick={handleScrollDown} className="bg-white/10 backdrop-blur-md cursor-pointer text-white border border-white/30 px-10 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all active:scale-95">
             Learn More
           </button>
         </div>
       </div>
 
       {/* --- JUMPING ARROW SECTION WITH CLICK HANDLER --- */}
-      <div 
+      <div
         onClick={handleScrollDown}
         className="hero-anim absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer group"
       >
         <p className="text-white/70 text-[10px] uppercase tracking-[4px] font-medium group-hover:text-green-400 transition-colors">
           Scroll
         </p>
-        
+
         <div ref={arrowRef} className="text-green-400">
-          <svg 
-            width="30" 
-            height="30" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2.5" 
-            strokeLinecap="round" 
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
             strokeLinejoin="round"
           >
             <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
