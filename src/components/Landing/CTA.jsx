@@ -11,7 +11,7 @@ const CTA = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative w-full h-[350px] md:h-[300px] rounded-3xl overflow-hidden flex items-center justify-center text-center"
+          className="relative w-full h-[350px] md:h-[300px] rounded-xl overflow-hidden flex items-center justify-center text-center"
         >
           {/* Background Image */}
           <div className="absolute inset-0 z-0">

@@ -84,7 +84,7 @@ const Features = () => {
               key={index}
               variants={cardVariants}
               // basis-full for mobile, md:basis-[calc(50%-2rem)] for 2-column, lg:basis-[calc(33.33%-2rem)] for 3-column
-              className="group relative p-8 rounded-[2rem] bg-white border border-slate-200 hover:border-green-300 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-2rem)] min-w-[300px] max-w-[800px]"
+              className="group relative p-4 rounded-xl bg-white border border-slate-200 hover:border-green-300 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.33%-2rem)] min-w-[300px] max-w-[800px]"
             >
               {/* Icon */}
               <div className="w-14 h-14 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-green-600 group-hover:text-white group-hover:rotate-6 transition-all duration-300">

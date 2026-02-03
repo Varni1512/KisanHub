@@ -51,12 +51,11 @@ const Auth = () => {
   };
 
   return (
-    <div className="bg-slate-50 flex items-center justify-center p-4 md:p-8 font-sans min-h-screen overflow-hidden">
+    <div className="bg-slate-50 flex items-center justify-center p-4 md:p-4 font-sans min-h-screen overflow-hidden">
 
       <motion.div 
         layout
-        className="max-w-xl w-full bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200 border border-slate-100 lg:max-h-[90vh] overflow-hidden"
-
+        className="max-w-xl w-full bg-white rounded-xl shadow-2xl shadow-slate-200 border border-slate-100 lg:max-h-[90vh] overflow-hidden"
       >
         <div className="p-8 md:p-8">
           
@@ -86,13 +85,13 @@ const Auth = () => {
                   <div className="relative">
                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
                     <input required type={showPass ? "text" : "password"} placeholder="••••••••" className="w-full pl-12 pr-12 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:border-green-500 outline-none transition-all" />
-                    <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                    <button type="button" onClick={() => setShowPass(!showPass)} className=" cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
                       {showPass ? <EyeOff size={20} /> : <Eye size={20} />}
                     </button>
                   </div>
                 </div>
 
-                <button type="submit" className="w-full bg-green-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-green-700 shadow-xl shadow-green-100 transition-all flex items-center justify-center gap-2 group">
+                <button type="submit" className="w-full cursor-pointer bg-green-600 text-white py-4 rounded-2xl font-bold text-lg hover:bg-green-700 shadow-xl shadow-green-100 transition-all flex items-center justify-center gap-2 group">
                   Login <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </button>
               </motion.form>
@@ -152,7 +151,7 @@ const Auth = () => {
                     </button>
                 </div>
 
-                <button type="submit" className="w-full bg-green-600 text-white py-4 rounded-2xl font-bold text-lg mt-2 hover:bg-green-700 shadow-xl transition-all">
+                <button type="submit" className="w-full cursor-pointer bg-green-600 text-white py-4 rounded-2xl font-bold text-lg mt-2 hover:bg-green-700 shadow-xl transition-all">
                   Register
                 </button>
               </motion.form>
@@ -162,7 +161,7 @@ const Auth = () => {
           <div className="mt-8 pt-6 border-t border-slate-100 text-center">
             <p className="text-slate-500 text-sm">
               {isLogin ? "Need an account?" : "Already registered?"}
-              <button onClick={() => setIsLogin(!isLogin)} className="ml-2 text-green-600 font-black hover:underline uppercase tracking-wider text-xs">
+              <button onClick={() => setIsLogin(!isLogin)} className="ml-2 cursor-pointer text-green-600 font-black hover:underline uppercase tracking-wider text-xs">
                 {isLogin ? "Create One" : "Login Now"}
               </button>
             </p>

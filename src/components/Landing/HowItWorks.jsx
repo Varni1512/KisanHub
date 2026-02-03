@@ -99,7 +99,7 @@ const HowItWorks = () => {
               >
                 {/* Content Side */}
                 <div className="w-full md:w-1/2 px-4 md:px-12 text-center md:text-left">
-                  <div className={`p-8 bg-slate-50 rounded-3xl border border-slate-100 transition-all hover:bg-green-50/50 hover:border-green-200 group`}>
+                  <div className={`p-4 bg-slate-50 rounded-xl border border-slate-100 transition-all hover:bg-green-50/50 hover:border-green-200 group`}>
                     <h3 className="text-2xl font-bold text-slate-900 mb-4 flex items-center justify-center md:justify-start gap-3">
                       <span className="text-green-600 bg-green-100 w-10 h-10 flex items-center justify-center rounded-lg text-sm group-hover:bg-green-600 group-hover:text-white transition-colors">
                         0{index + 1}

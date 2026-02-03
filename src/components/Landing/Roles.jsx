@@ -31,7 +31,7 @@ const Roles = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
-              className={`p-8 rounded-[2rem] bg-white border-b-4 ${role.color} shadow-sm hover:shadow-xl transition-all duration-300`}
+              className={`p-4 rounded-xl bg-white border-b-4 ${role.color} shadow-sm hover:shadow-xl transition-all duration-300`}
             >
               <div className={`w-16 h-16 ${role.bg} rounded-2xl flex items-center justify-center mb-6`}>
                 {role.icon}
