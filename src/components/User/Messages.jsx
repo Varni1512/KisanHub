@@ -68,7 +68,7 @@ const Messages = () => {
   const currentContact = contacts.find(c => c.id === activeChat) || contacts[0];
 
   return (
-    <div className="flex h-[90vh] md:h-[90vh] bg-white rounded-xl shadow-xl overflow-hidden border border-slate-200 font-sans relative">
+    <div className="flex h-[90vh] md:h-[85vh] bg-white rounded-xl shadow-xl overflow-hidden border border-slate-200 font-sans relative">
       
       {/* LEFT SIDEBAR (Contact List) 
           Logic: 

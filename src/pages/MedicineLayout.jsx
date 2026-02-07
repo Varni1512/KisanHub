@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Pill, ShoppingCart, User, LogOut, Menu, Bell, ChevronRight, ShoppingBag } from 'lucide-react';
 
@@ -6,7 +6,14 @@ const MedicineLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-  
+
+  // --- Default Dashboard Logic ---
+  // Agar path sirf '/medicine' ya '/medicine/' hai, toh auto-redirect to dashboard
+  useEffect(() => {
+    if (location.pathname === '/medicine' || location.pathname === '/medicine/') {
+      navigate('/medicine/dashboard', { replace: true });
+    }
+  }, [location, navigate]);
 
   const menuItems = [
     { name: 'Dashboard', icon: LayoutDashboard, path: '/medicine/dashboard' },
@@ -20,55 +27,42 @@ const MedicineLayout = () => {
 
       {/* Sidebar */}
       <aside
-        className={`${isSidebarOpen ? 'w-64' : 'w-20'
-          } bg-white border-r border-slate-200 transition-all duration-300 flex flex-col fixed h-full z-20 shadow-sm`}
+        className={`${isSidebarOpen ? 'w-64' : 'w-20'} bg-white border-r border-slate-200 transition-all duration-300 flex flex-col fixed h-full z-20 shadow-sm`}
       >
         {/* Sidebar Header / Logo */}
-        <div
-          className="h-20 flex items-center justify-center px-4 border-b border-slate-100 cursor-pointer hover:bg-slate-50 transition-colors"
-          onClick={() => navigate('/medicine/dashboard')}
-        >
+        <div className="h-20 flex items-center justify-between px-4 border-b border-slate-100">
           {isSidebarOpen ? (
-            <div className="w-full flex justify-center">
-              {/* Full Width Logo Logic */}
-              <img
-                src="/logo.png"
-                alt="Logo"
-                className="w-48 max-h-20 object-contain"
-              />
+            <div 
+              className="flex-1 flex justify-center cursor-pointer" 
+              onClick={() => navigate('/medicine/dashboard')}
+            >
+              <img src="/logo.png" alt="Logo" className="w-70 max-h-24 object-contain" />
             </div>
           ) : (
-            <div className="w-10 h-10 flex items-center justify-center">
-              {/* Collapsed Small Logo */}
-              <img src="/logo.png" alt="Logo" className="h-8 w-auto object-contain" />
+            <div className="w-full flex justify-center">
+              {/* <img src="/logo.png" alt="Logo" className="h-12 w-auto object-contain" /> */}
             </div>
           )}
+          
+          {/* Sidebar Toggle Button (Inside Header) */}
+          
         </div>
 
         {/* Navigation Links */}
         <nav className="flex-1 p-3 space-y-1 mt-2">
-          {/* Toggle Button for Collapsed View (Only visible when collapsed) */}
-          {!isSidebarOpen && (
-            <div className="flex justify-center mb-4">
-              <button
-                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="p-2 rounded-lg hover:bg-slate-100 text-slate-500 cursor-pointer"
-              >
-                <Menu size={20} />
-              </button>
-            </div>
-          )}
-
           {menuItems.map((item) => {
+            // Dashboard selected background logic
             const isActive = location.pathname === item.path;
+            
             return (
               <button
                 key={item.path}
                 onClick={() => navigate(item.path)}
-                className={`w-full flex items-center p-3 text-sm font-semibold rounded-xl transition-all duration-200 group relative cursor-pointer ${isActive
-                    ? 'bg-green-50 text-green-700 font-semibold'
+                className={`w-full flex items-center p-3 text-sm font-semibold rounded-xl transition-all duration-200 group relative cursor-pointer ${
+                  isActive
+                    ? 'bg-green-50 text-green-700' // Click karne wala background
                     : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
-                  }`}
+                }`}
               >
                 <item.icon
                   size={22}
@@ -77,6 +71,11 @@ const MedicineLayout = () => {
 
                 {isSidebarOpen && (
                   <span className="ml-3 text-sm">{item.name}</span>
+                )}
+
+                {/* Active Indicator Tooltip for collapsed view */}
+                {!isSidebarOpen && isActive && (
+                  <div className="absolute left-0 w-1 h-6 bg-green-600 rounded-r-full" />
                 )}
               </button>
             );
@@ -103,8 +102,10 @@ const MedicineLayout = () => {
         {/* Top Header */}
         <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-10">
           <div className="flex items-center gap-2">
-
-
+            {/* Page Title showing dynamically based on path */}
+            <h2 className="text-lg font-bold text-slate-800 capitalize">
+              {location.pathname.split('/').pop()}
+            </h2>
           </div>
 
           <div className="flex items-center gap-4">
@@ -115,7 +116,10 @@ const MedicineLayout = () => {
 
             <div className="h-8 w-px bg-slate-200"></div>
 
-            <div className="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-lg transition-colors group">
+            <div 
+              onClick={() => navigate('/medicine/profile')}
+              className="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-lg transition-colors group"
+            >
               <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-bold border border-green-200">
                 G
               </div>
