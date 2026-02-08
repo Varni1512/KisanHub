@@ -56,7 +56,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
       {/* Logout Button at bottom */}
       <div className="pt-4 border-t border-slate-100">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => { localStorage.removeItem('user'); navigate('/'); }}
           className="w-full flex cursor-pointer items-center gap-4 px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl transition-colors font-semibold">
           <LogOut size={22} />
           <span>Logout</span>

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Menu, ShoppingCart, Bell, MessageCircle } from 'lucide-react';
-// Components Import
 import Sidebar from '../components/Farmer/Sidebar';
 import Marketplace from '../components/Farmer/Marketplace';
 import WeatherSection from '../components/Farmer/WeatherSection';
@@ -10,11 +10,35 @@ import RentalHub from '../components/Farmer/RentalHub';
 import FarmerProfile from '../components/Farmer/FarmerProfile';
 import FarmerOrders from '../components/Farmer/FarmerOrders';
 import GoogleTranslate from '../components/Landing/Language';
+import { marketplaceOrdersAPI } from '../utils/api';
 
 const Farmer = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('sell');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  useEffect(() => {
+    if (!user?._id) {
+      navigate('/login', { replace: true });
+      return;
+    }
+    if (user.role !== 'Farmer') {
+      const routes = { User: '/user', Seller: '/user', 'Medicine Shopkeeper': '/medicine', Admin: '/admin' };
+      navigate(routes[user.role] || '/user', { replace: true });
+    }
+  }, [user?._id, user?.role, navigate]);
+
+  useEffect(() => {
+    if (!user?._id) return;
+    marketplaceOrdersAPI.getBySeller(user._id).then((res) => {
+      if (res.success && res.orders) {
+        const pending = res.orders.filter((o) => o.status === 'Pending').length;
+        setCartCount(pending);
+      }
+    });
+  }, [user?._id, activeTab]);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -77,11 +101,11 @@ const Farmer = () => {
             </button>
 
             <button
-              onClick={() => setActiveTab('sell')}
+              onClick={() => setActiveTab('orders')}
               className="flex cursor-pointer items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg transition-all shadow-sm active:scale-95"
             >
               <ShoppingCart className="w-4 h-4" />
-              <span className="text-sm font-bold">0 Items</span>
+              <span className="text-sm font-bold">{cartCount} Orders</span>
             </button>
           </div>
         </header>

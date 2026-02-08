@@ -89,15 +89,97 @@ export const uploadAPI = {
 };
 
 export const razorpayAPI = {
-  createOrder: (orderId) =>
+  createOrder: (orderId, type = 'medicine') =>
     fetch(`${API_BASE}/razorpay/create-order`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ orderId }),
+      body: JSON.stringify({ orderId, type }),
     }).then((res) => res.json()),
   verifyPayment: (data) =>
     fetch(`${API_BASE}/razorpay/verify-payment`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).then((res) => res.json()),
+};
+
+export const farmerProductsAPI = {
+  getAll: () => safeFetch(`${API_BASE}/farmer-products`),
+  getMy: (farmerId) => safeFetch(`${API_BASE}/farmer-products/my/${farmerId}`),
+  create: (data) =>
+    fetch(`${API_BASE}/farmer-products`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).then((res) => res.json()),
+  update: (id, data) =>
+    fetch(`${API_BASE}/farmer-products/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).then((res) => res.json()),
+  delete: (id) =>
+    fetch(`${API_BASE}/farmer-products/${id}`, { method: 'DELETE' }).then((res) => res.json()),
+};
+
+export const marketplaceOrdersAPI = {
+  getByBuyer: (buyerId) => safeFetch(`${API_BASE}/marketplace-orders/buyer/${buyerId}`),
+  getBySeller: (sellerId) => safeFetch(`${API_BASE}/marketplace-orders/seller/${sellerId}`),
+  create: (data) =>
+    fetch(`${API_BASE}/marketplace-orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).then((res) => res.json()),
+  updateStatus: (id, status) =>
+    fetch(`${API_BASE}/marketplace-orders/${id}/status`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    }).then((res) => res.json()),
+};
+
+export const rentalItemsAPI = {
+  getAll: () => safeFetch(`${API_BASE}/rental-items`),
+  getMy: (ownerId) => safeFetch(`${API_BASE}/rental-items/my/${ownerId}`),
+  create: (data) =>
+    fetch(`${API_BASE}/rental-items`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).then((res) => res.json()),
+  update: (id, data) =>
+    fetch(`${API_BASE}/rental-items/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).then((res) => res.json()),
+  delete: (id) =>
+    fetch(`${API_BASE}/rental-items/${id}`, { method: 'DELETE' }).then((res) => res.json()),
+};
+
+export const rentalRequestsAPI = {
+  getByOwner: (ownerId) => safeFetch(`${API_BASE}/rental-requests/owner/${ownerId}`),
+  getByRenter: (renterId) => safeFetch(`${API_BASE}/rental-requests/renter/${renterId}`),
+  create: (data) =>
+    fetch(`${API_BASE}/rental-requests`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    }).then((res) => res.json()),
+  respond: (id, status) =>
+    fetch(`${API_BASE}/rental-requests/${id}/respond`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status }),
+    }).then((res) => res.json()),
+};
+
+export const farmerProfileAPI = {
+  get: (userId) => safeFetch(`${API_BASE}/farmer-profile/${userId}`),
+  update: (userId, data) =>
+    fetch(`${API_BASE}/farmer-profile/${userId}`, {
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     }).then((res) => res.json()),

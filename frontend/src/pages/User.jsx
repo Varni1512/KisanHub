@@ -1,11 +1,5 @@
-import React, { useState } from 'react';
-// import Sidebar from './Sidebar';
-// import Dashboard from './Dashboard';
-// import BrowseProducts from './BrowseProducts';
-// import Cart from './Cart';
-// import Orders from './Orders';
-// import Messages from './Messages';
-// import Profile from './Profile';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Menu, ShoppingCart, Bell } from 'lucide-react';
 import Dashboard from '../components/User/Dashboard';
 import BrowseProducts from '../components/User/BrowseProducts';
@@ -16,16 +10,59 @@ import Sidebar from '../components/User/Sidebar';
 import Profile from '../components/User/Profile';
 import GoogleTranslate from '../components/Landing/Language';
 
+const CART_KEY = 'kisanhub_marketplace_cart';
+
 const User = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('Dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [cartItems, setCartItems] = useState(() => JSON.parse(localStorage.getItem(CART_KEY) || '[]'));
   const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  useEffect(() => {
+    if (!user?._id) {
+      navigate('/login', { replace: true });
+      return;
+    }
+    if (user.role === 'Farmer') {
+      navigate('/farmer', { replace: true });
+      return;
+    }
+    if (user.role === 'Medicine Shopkeeper') navigate('/medicine', { replace: true });
+    if (user.role === 'Admin') navigate('/admin', { replace: true });
+  }, [user?._id, user?.role, navigate]);
+
+  useEffect(() => {
+    localStorage.setItem(CART_KEY, JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  const addToCart = (item) => {
+    setCartItems((prev) => {
+      const exists = prev.find((p) => p._id === item._id);
+      if (exists) {
+        return prev.map((p) => (p._id === item._id ? { ...p, qty: Math.min((p.qty || 1) + 1, p.stock || 999) } : p));
+      }
+      return [...prev, { ...item, qty: 1 }];
+    });
+  };
+
+  const updateCartQty = (id, delta) => {
+    setCartItems((prev) =>
+      prev.map((p) => (p._id === id ? { ...p, qty: Math.max(1, (p.qty || 1) + delta) } : p)).filter((p) => p.qty > 0)
+    );
+  };
+
+  const removeFromCart = (id) => {
+    setCartItems((prev) => prev.filter((p) => p._id !== id));
+  };
+
+  const clearCart = () => setCartItems([]);
 
   const renderContent = () => {
     switch (activeTab) {
       case 'Dashboard': return <Dashboard />;
-      case 'Browse Products': return <BrowseProducts />;
-      case 'Cart': return <Cart />;
+      case 'Browse Products': return <BrowseProducts addToCart={addToCart} />;
+      case 'Cart': return <Cart cartItems={cartItems} updateCartQty={updateCartQty} removeFromCart={removeFromCart} clearCart={clearCart} setActiveTab={setActiveTab} />;
       case 'My Orders': return <Orders />;
       case 'Messages': return <Messages />;
       case 'Profile': return <Profile />;
@@ -68,7 +105,7 @@ const User = () => {
             </button>
             <button onClick={() => setActiveTab('Cart')} className="flex cursor-pointer items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg transition-all shadow-sm">
               <ShoppingCart className="w-4 h-4" />
-              <span className="text-sm font-bold">3 Items</span>
+              <span className="text-sm font-bold">{cartItems.length} Items</span>
             </button>
           </div>
         </header>

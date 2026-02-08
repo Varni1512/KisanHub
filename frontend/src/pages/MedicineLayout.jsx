@@ -5,15 +5,19 @@ import GoogleTranslate from '../components/Landing/Language';
 import { shopProfileAPI, ordersAPI } from '../utils/api';
 
 const MedicineLayout = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [profile, setProfile] = useState(null);
-  const [notifications, setNotifications] = useState([]);
-  const [showNotif, setShowNotif] = useState(false);
-  const notifRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const shopkeeperId = user?._id;
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [profile, setProfile] = useState(null);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotif, setShowNotif] = useState(false);
+  const [lastSeenNotif, setLastSeenNotif] = useState(() => {
+    return parseInt(localStorage.getItem(`lastSeenNotif_${shopkeeperId}`) || '0', 10);
+  });
+  const notifRef = useRef(null);
 
   useEffect(() => {
     if (!shopkeeperId) return;
@@ -61,8 +65,17 @@ const MedicineLayout = () => {
     return date.toLocaleDateString();
   };
 
-  // --- Default Dashboard Logic ---
-  // Agar path sirf '/medicine' ya '/medicine/' hai, toh auto-redirect to dashboard
+  useEffect(() => {
+    if (!user?._id) {
+      navigate('/login', { replace: true });
+      return;
+    }
+    if (user.role !== 'Medicine Shopkeeper') {
+      const routes = { Farmer: '/farmer', User: '/user', Seller: '/user', Admin: '/admin' };
+      navigate(routes[user.role] || '/user', { replace: true });
+    }
+  }, [user?._id, user?.role, navigate]);
+
   useEffect(() => {
     if (location.pathname === '/medicine' || location.pathname === '/medicine/') {
       navigate('/medicine/dashboard', { replace: true });
@@ -76,6 +89,23 @@ const MedicineLayout = () => {
     { name: 'Profile', icon: User, path: '/medicine/profile' },
   ];
 
+  const toggleNotif = () => {
+    const newState = !showNotif;
+    setShowNotif(newState);
+    if (newState && notifications.length > 0) {
+      const maxTime = Math.max(...notifications.map(n => new Date(n.time).getTime() || 0));
+      if (maxTime > 0) {
+        setLastSeenNotif(maxTime);
+        localStorage.setItem(`lastSeenNotif_${shopkeeperId}`, maxTime.toString());
+      }
+    }
+  };
+
+  const hasUnseen = notifications.some(n => {
+    const nTime = new Date(n.time).getTime() || 0;
+    return n.type === 'new' && nTime > lastSeenNotif;
+  });
+
   return (
     <div className="flex h-screen bg-slate-50 font-sans text-slate-800">
 
@@ -86,8 +116,8 @@ const MedicineLayout = () => {
         {/* Sidebar Header / Logo */}
         <div className="h-20 flex items-center justify-between px-4 border-b border-slate-100">
           {isSidebarOpen ? (
-            <div 
-              className="flex-1 flex justify-center cursor-pointer" 
+            <div
+              className="flex-1 flex justify-center cursor-pointer"
               onClick={() => navigate('/medicine/dashboard')}
             >
               <img src="/logo.png" alt="Logo" className="w-70 max-h-24 object-contain" />
@@ -97,9 +127,9 @@ const MedicineLayout = () => {
               {/* <img src="/logo.png" alt="Logo" className="h-12 w-auto object-contain" /> */}
             </div>
           )}
-          
+
           {/* Sidebar Toggle Button (Inside Header) */}
-          
+
         </div>
 
         {/* Navigation Links */}
@@ -107,16 +137,15 @@ const MedicineLayout = () => {
           {menuItems.map((item) => {
             // Dashboard selected background logic
             const isActive = location.pathname === item.path;
-            
+
             return (
               <button
                 key={item.path}
                 onClick={() => navigate(item.path)}
-                className={`w-full flex items-center p-3 text-sm font-semibold rounded-xl transition-all duration-200 group relative cursor-pointer ${
-                  isActive
+                className={`w-full flex items-center p-3 text-sm font-semibold rounded-xl transition-all duration-200 group relative cursor-pointer ${isActive
                     ? 'bg-green-50 text-green-700' // Click karne wala background
                     : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'
-                }`}
+                  }`}
               >
                 <item.icon
                   size={22}
@@ -163,14 +192,14 @@ const MedicineLayout = () => {
           </div>
 
           <div className="flex items-center gap-4">
-          <GoogleTranslate defaultState={user?.state} />
+            <GoogleTranslate defaultState={user?.state} />
             <div className="relative" ref={notifRef}>
               <button
-                onClick={() => setShowNotif(!showNotif)}
+                onClick={toggleNotif}
                 className="relative p-2 text-slate-400 hover:bg-slate-50 hover:text-slate-600 rounded-full transition-colors cursor-pointer"
               >
                 <Bell size={20} />
-                {notifications.some(n => n.type === 'new') && (
+                {hasUnseen && (
                   <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
                 )}
               </button>
@@ -206,7 +235,7 @@ const MedicineLayout = () => {
 
             <div className="h-8 w-px bg-slate-200"></div>
 
-            <div 
+            <div
               onClick={() => navigate('/medicine/profile')}
               className="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-lg transition-colors group"
             >

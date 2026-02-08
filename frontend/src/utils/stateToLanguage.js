@@ -1,6 +1,5 @@
-// Indian state to Google Translate language code mapping
-// Format: Google uses 2-letter codes (hi=Hindi, ta=Tamil, etc.)
 export const STATE_TO_LANGUAGE = {
+  'English': 'en',
   'Andhra Pradesh': 'te',      // Telugu
   'Arunachal Pradesh': 'hi',   // Multiple - default Hindi
   'Assam': 'as',               // Assamese

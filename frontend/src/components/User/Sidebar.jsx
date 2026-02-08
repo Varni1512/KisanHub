@@ -7,8 +7,8 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
   const menuItems = [
     { name: 'Dashboard', icon: <LayoutDashboard size={20} /> },
     { name: 'Browse Products', icon: <ShoppingBag size={20} /> },
+    { name: 'Cart', icon: <ShoppingCart size={20} /> },
     { name: 'My Orders', icon: <ClipboardList size={20} /> },
-    // { name: 'Cart', icon: <ShoppingCart size={20} /> },
     { name: 'Messages', icon: <MessageSquare size={20} /> },
     { name: 'Profile', icon: <UserIcon size={20} /> },
   ];
@@ -39,7 +39,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
 
       <div className="p-4 border-t border-slate-100">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => { localStorage.removeItem('user'); navigate('/'); }}
           className="flex items-center gap-3 cursor-pointer text-red-500 w-full px-4 py-3 hover:bg-red-50 rounded-xl transition-colors font-semibold">
           <LogOut size={20} />
           Logout
