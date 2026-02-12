@@ -8,10 +8,7 @@ import ShopDashboard from "./components/Shopkeeper/ShopDashboard";
 import ShopProducts from "./components/Shopkeeper/ShopProducts";
 import ShopOrders from "./components/Shopkeeper/ShopOrders";
 import ShopProfile from "./components/Shopkeeper/ShopProfile";
-import Farmer from "./pages/Farmer.jsX";
-// import Farmer from "./pages/Farmer";
-// import Buyer from "./pages/Buyer";
-// import Admin from "./pages/Admin";
+import Farmer from "./pages/Farmerpage";
 
 const App = () => {
   return (
