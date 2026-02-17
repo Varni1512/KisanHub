@@ -9,6 +9,7 @@ import ShopProducts from "./components/Shopkeeper/ShopProducts";
 import ShopOrders from "./components/Shopkeeper/ShopOrders";
 import ShopProfile from "./components/Shopkeeper/ShopProfile";
 import Farmer from "./pages/Farmerpage";
+import Admin from "./pages/Admin";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/login" element={<Auth />} />
         <Route path="/user" element={<User />} />
         <Route path="/farmer" element={<Farmer />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/medicine" element={<MedicineLayout />}>
           <Route index element={<ShopDashboard />} />  {/* Default route */}
           <Route path="dashboard" element={<ShopDashboard />} />
